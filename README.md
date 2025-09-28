@@ -1,174 +1,174 @@
-# Development Tools CLI
+# Tools CLI Aneh 🚀
 
-A comprehensive CLI tool for managing PostgreSQL, RabbitMQ, and MinIO services.
+Jadi gini guys, ini tuh CLI tools yang literally bisa ngebantu kalian manage PostgreSQL, RabbitMQ, sama MinIO. No cap, ini tools emang se-useful itu sih!
 
-## Installation
+## Cara Install 
 
 ```bash
 go build -o tools.exe .
 ```
 
-## Configuration
+Gampang kan? Tinggal build aja udah jadi deh 💯
 
-The tool supports configuration through environment variables. Create a `.env` file in the same directory as the executable:
+## Konfigurasi
+
+Nah ini dia yang seru, kalian bisa setup pake environment variables. Literally tinggal bikin file `.env` di folder yang sama:
 
 ```bash
 cp .env.example .env
-# Edit .env with your configuration
+# Edit .env sesuai kebutuhan kalian ya bestie
 ```
 
-### Supported Environment Variables
+### Environment Variables yang Bisa Dipake
 
 #### PostgreSQL
-- `PGHOST` - Database host (default: localhost)
-- `PGPORT` - Database port (default: 5432)
-- `PGUSER` - Database user (default: postgres)
-- `PGPASSWORD` - Database password
-- `PGDATABASE` - Default database (default: postgres)
-
-
+- `PGHOST` - Host database kalian (default: localhost)
+- `PGPORT` - Port-nya berapa (default: 5432)
+- `PGUSER` - Username database (default: postgres)
+- `PGPASSWORD` - Password-nya dong
+- `PGDATABASE` - Database default (default: postgres)
 
 #### RabbitMQ
-- `RABBITMQ_HOST` - RabbitMQ host (default: localhost)
-- `RABBITMQ_MANAGEMENT_PORT` - Management API port (default: 15672)
-- `RABBITMQ_DEFAULT_USER` - Username (default: guest)
-- `RABBITMQ_DEFAULT_PASS` - Password (default: guest)
-- `RABBITMQ_DEFAULT_VHOST` - Virtual host (default: /)
+- `RABBITMQ_HOST` - Host RabbitMQ (default: localhost)
+- `RABBITMQ_MANAGEMENT_PORT` - Port buat management API (default: 15672)
+- `RABBITMQ_DEFAULT_USER` - Username-nya (default: guest)
+- `RABBITMQ_DEFAULT_PASS` - Password dong (default: guest)
+- `RABBITMQ_DEFAULT_VHOST` - Virtual host gitu (default: /)
 
 #### MinIO
-- `MINIO_ENDPOINT` - MinIO endpoint (default: localhost:9000)
-- `MINIO_ACCESS_KEY` or `MINIO_ROOT_USER` - Access key
-- `MINIO_SECRET_KEY` or `MINIO_ROOT_PASSWORD` - Secret key
-- `MINIO_USE_SSL` - Use SSL connection (default: false)
+- `MINIO_ENDPOINT` - Endpoint MinIO kalian (default: localhost:9000)
+- `MINIO_ACCESS_KEY` atau `MINIO_ROOT_USER` - Access key nya
+- `MINIO_SECRET_KEY` atau `MINIO_ROOT_PASSWORD` - Secret key jangan sampe bocor ya
+- `MINIO_USE_SSL` - Pake SSL apa nggak (default: false)
 
-## Usage
+## Cara Pake
 
-### Database Commands
+### Command Database yang Kece
 
 ```bash
-# List all databases
+# Liat semua database yang ada
 ./tools.exe db list
 
-# Create a database
+# Bikin database baru
 ./tools.exe db create mydatabase
 
-# Drop a database
+# Hapus database (hati-hati ya!)
 ./tools.exe db drop mydatabase
 
-# Backup a database
+# Backup database biar aman
 ./tools.exe db backup mydatabase backup.sql
 
-# Restore a database
+# Restore database kalo kenapa-kenapa
 ./tools.exe db restore mydatabase backup.sql
 
 
 ```
 
-### RabbitMQ Commands
+### Command RabbitMQ yang Mantap
 
 ```bash
-# List all queues
+# Liat semua queue
 ./tools.exe rabbit queues
 
-# Create a queue
+# Bikin queue baru
 ./tools.exe rabbit create-queue myqueue
 
-# Delete a queue
+# Delete queue
 ./tools.exe rabbit delete-queue myqueue
 
-# Purge messages from a queue
+# Bersihin message di queue
 ./tools.exe rabbit purge myqueue
 
-# List exchanges
+# Liat exchanges yang ada
 ./tools.exe rabbit exchanges
 
-# Create an exchange
+# Bikin exchange baru
 ./tools.exe rabbit create-exchange myexchange --type topic
 
-# Publish a message
-./tools.exe rabbit publish exchange routing-key "message content"
+# Kirim message
+./tools.exe rabbit publish exchange routing-key "isi pesan kalian"
 
-# Show statistics
+# Liat statistik
 ./tools.exe rabbit stats
 ```
 
-### MinIO Commands
+### Command MinIO yang Gokil
 
 ```bash
-# List all buckets
+# Liat semua bucket
 ./tools.exe minio buckets
 
-# Create a bucket
+# Bikin bucket baru
 ./tools.exe minio create-bucket mybucket
 
-# Delete a bucket
+# Hapus bucket
 ./tools.exe minio delete-bucket mybucket
-./tools.exe minio delete-bucket mybucket --force  # Delete with all contents
+./tools.exe minio delete-bucket mybucket --force  # Hapus sekalian sama isinya
 
-# List objects in a bucket
+# Liat isi bucket
 ./tools.exe minio list mybucket
 ./tools.exe minio list mybucket --recursive
 
-# Upload a file
+# Upload file
 ./tools.exe minio upload mybucket localfile.txt
 ./tools.exe minio upload mybucket localfile.txt remote-name.txt
 
-# Download a file
+# Download file
 ./tools.exe minio download mybucket remote-file.txt
 ./tools.exe minio download mybucket remote-file.txt local-name.txt
 
-# Delete an object
+# Hapus object
 ./tools.exe minio delete mybucket object-name.txt
 
-# Copy objects between buckets
+# Copy antar bucket
 ./tools.exe minio copy source-bucket file.txt dest-bucket new-file.txt
 
-# Get object/bucket information
+# Cek info object/bucket
 ./tools.exe minio stat mybucket
 ./tools.exe minio stat mybucket object.txt
 
-# Mirror a local directory to a bucket
+# Mirror folder lokal ke bucket
 ./tools.exe minio mirror ./local-dir mybucket
 ```
 
-## Command-Line Flags
+## Flag Command-Line Biar Makin Flexible
 
-All commands support overriding environment variables with command-line flags:
+Semua command bisa di-override pake flag, jadi ga stuck sama env variables doang:
 
 ```bash
-# Database with custom connection
+# Database pake koneksi custom
 ./tools.exe db list --host 192.168.1.10 --port 5433 --user admin --password secret
 
-# RabbitMQ with custom connection
+# RabbitMQ pake host lain
 ./tools.exe rabbit queues --host rabbitmq.example.com --port 15673
 
-# MinIO with custom endpoint
+# MinIO pake endpoint sendiri
 ./tools.exe minio buckets --endpoint s3.example.com:9000 --access-key mykey --secret-key mysecret
 ```
 
-## Development
+## Buat yang Mau Develop
 
-### Requirements
-- Go 1.21 or later
-- Access to PostgreSQL/MySQL (for database commands)
-- Access to RabbitMQ Management API (for RabbitMQ commands)
-- Access to MinIO server (for MinIO commands)
+### Yang Harus Ada Dulu
+- Go 1.21 atau yang lebih baru
+- Akses ke PostgreSQL/MySQL (buat command database)
+- Akses ke RabbitMQ Management API (buat command RabbitMQ)
+- Akses ke MinIO server (buat command MinIO)
 
-### Building from Source
+### Build dari Source Code
 
 ```bash
-git clone <repository>
-cd tools
+git clone git@github.com:198cad/tools-aneh.git
+cd tools-aneh
 go mod download
 go build -o tools.exe .
 ```
 
-### Running with Air (Hot Reload)
+### Jalanin Pake Air (Auto Reload Gitu)
 
 ```bash
 air
 ```
 
-## License
+## Lisensi
 
-MIT
+MIT aja biar bebas dipake siapa aja 😎
